@@ -49,6 +49,38 @@ def validate_kubectl():
     # Return events
     return jsonify({"events": sorted_events})
 
+@app.route('/messages', methods=['GET'])
+def get_kubectl_messages():
+    pod_name = request.args.get('name')
+    namespace = request.args.get('namespace')
+    resource_type = request.args.get('type')
+
+    if not pod_name or not namespace or not resource_type:
+        return jsonify({"error": "Missing required query parameters: name, namespace, type"}), 400
+
+    if resource_type not in ['pod', 'deployment']:
+        return jsonify({"error": "Invalid type parameter, must be 'pod' or 'deployment'"}), 400
+
+    # Construct the kubectl command based on the provided parameters
+    events_cmd = f"kubectl get events --field-selector involvedObject.name={pod_name},involvedObject.namespace={namespace} -n {namespace}"
+
+    # Execute the kubectl command
+    process = subprocess.run(events_cmd, shell=True, capture_output=True, text=True)
+    if process.returncode != 0:
+        return jsonify({"error": process.stderr}), 500
+
+    # Process the events
+    events = process.stdout.splitlines()
+    if len(events) > 1:
+        # Skip the header and sort by the first column (TIME)
+        sorted_events = sorted(events[1:], key=lambda line: line.split()[0])
+        sorted_events.insert(0, events[0])  # Reinsert header at the beginning
+    else:
+        sorted_events = events
+
+    # Return the events
+    return jsonify({"events": sorted_events})
+
 @app.route('/apply', methods=['POST'])
 def apply_kubectl():
     # Parse the incoming data as JSON
@@ -89,3 +121,4 @@ def apply_kubectl():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
