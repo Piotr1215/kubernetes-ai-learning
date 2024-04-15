@@ -1,0 +1,14 @@
+procs:
+  fawit:
+    cwd: "/home/decoder/dev/Flowise/docker/"
+    shell: "docker compose up"
+    stop: { send-keys: ["<C-c>"] }
+  server:
+    cwd: "/home/decoder/dev/ai-reliability/"
+    shell: "./server.py"
+    autostart: false
+    stop: { send-keys: ["<C-c>"] }
+  ngrok:
+    cwd: "/home/decoder/dev/ai-reliability/"
+    shell: "ngrok http --domain=cloudrumble.ngrok.app 5000"
+    stop: { send-keys: ["<C-c>"] }
