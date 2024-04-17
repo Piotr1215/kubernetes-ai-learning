@@ -9,6 +9,6 @@ config:
   @curl -X GET -H "Content-Type: application/json" http://cloudrumble.ngrok.app/config
 
 flowise:
-  @xdg-open http://localhost:3000
+  @xdg-open http://localhost:3003
 
 

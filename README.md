@@ -1,39 +1,56 @@
-# Enhancing Kubernetes YAML Verification with Artificial Intelligence
+# TODO
 
----
+Add instructions for setting up the project
 
-## Problem Statement
+## Prerequisites
 
-- 🤖 AI faces issues with consistency and reliability when dealing with large YAML files.
-- 🧠 AIs can have "hallucinations," generating illogical outputs that become more problematic as the input size increases.
-- 📈 This inconsistency makes working with AI models non-deterministic and error
-  prone
+Before running the setup, ensure you have the following installed:
 
----
+- Python 3.x
+- Just (command runner)
+- Hurl (for HTTP testing)
 
-## Goals
+## Setup
 
-- 💪 Enhancing AI chatbot reliability
-- 🔬 Using OpenAI's latest model with function calling
-- 📚 Utilizing document retrieval systems as knowledge base
-- 🧠 Connect everything into one cohesive pattern
+To set up the project, follow these steps:
 
----
+1. Install the required Python packages:
 
-## Implementation
+   ```
+   pip install -r requirements.txt
+   ```
 
-- 💼 Implementing the draft using Flowise
-- 🛠️ Creating an API using Python Flask
-- 💻 Communicating with a local Kind cluster that has Kubernetes installed.
-- 💬 Embedding a chatbot on a web page.
+2. Run the server using the Justfile:
 
----
+   ```
+   just run-server
+   ```
 
-## Closing Thoughts
+3. To test the server, you can use the provided Hurl file:
 
-- 💭 Debate between model fine-tuning and chain of reasoning
-- 🚀 Potential use cases:
-  - 🤖 dedicated chatbots per customer
-  - 📈 help increase Kubernetes adoption
-  - 🌐 virtual platform engineer
-- 📚 Needs more research and resources
+   ```
+   hurl --file req.hurl
+   ```
+
+4. The `llm-procs.yaml`, `test-pod-error.yaml`, and `test-pod.yaml` files are likely used for deployment and testing in a Kubernetes environment. Make sure to configure your Kubernetes cluster accordingly before applying these configurations.
+
+## Testing
+
+Run the tests using the Justfile:
+
+```
+just test
+```
+
+## Deployment
+
+To deploy the application to a Kubernetes cluster, apply the YAML configurations:
+
+```
+kubectl apply -f test-pod.yaml
+kubectl apply -f test-pod-error.yaml
+```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
