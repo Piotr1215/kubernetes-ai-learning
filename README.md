@@ -23,7 +23,7 @@
 
 - 💼 Implementing the draft using Flowise
 - 🛠️ Creating an API using Python Flask
-- 💻 Communicating with a local Kind cluster that has Crossplane installed.
+- 💻 Communicating with a local Kind cluster that has Kuberentes installed.
 - 💬 Embedding a chatbot on a web page.
 
 ---
@@ -103,7 +103,7 @@ cluster.
 - 💭 Debate between model fine-tuning and chain of reasoning
 - 🚀 Potential use cases:
   - 🤖 dedicated chatbots per customer
-  - 📈 help increase crossplane adoption
+  - 📈 help increase kuberentes adoption
   - 🌐 virtual platform engineer
 - 📚 Needs more research and resources
 
