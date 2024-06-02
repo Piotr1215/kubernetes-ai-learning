@@ -10,6 +10,8 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 
+logging.getLogger("watchdog").setLevel(logging.WARNING)
+
 @app.route('/config', methods=['GET'])
 def get_cluster_config():
     # Get cluster configuration using kubectl
