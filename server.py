@@ -86,7 +86,7 @@ def apply_kubectl():
     # Parse the incoming data as JSON
     try:
         data = json.loads(request.data)
-    except json.JSONDecodeError as e:
+    except json.JSONDecodeError:
         return jsonify({"error": "Invalid JSON data"}), 400
 
     # Extract the YAML string
