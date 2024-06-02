@@ -1,6 +1,5 @@
 # Enhancing Verification with Artificial Intelligence
 
-
 ## Problem Statement
 
 - 🤖 AI faces issues with consistency and reliability when dealing with large YAML files.
@@ -98,6 +97,8 @@ kubectl apply -f test-pod-error.yaml
 In `flowise` navigate to the testing section and use the chatbot to explore the
 cluster.
 
+Additionally you can use `hurl` and run files with `*.hurl` extension to test the endpoints.
+
 ## Closing Thoughts
 
 - 💭 Debate between model fine-tuning and chain of reasoning
@@ -106,7 +107,6 @@ cluster.
   - 📈 help increase kuberentes adoption
   - 🌐 virtual platform engineer
 - 📚 Needs more research and resources
-
 
 ## License
 
