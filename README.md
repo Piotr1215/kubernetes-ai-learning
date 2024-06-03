@@ -1,29 +1,34 @@
+---
+
 # Enhancing Verification with Artificial Intelligence
 
 ## Problem Statement
 
+Let's state the issue we do have with AI in the context of Kubernetes:
+
 - 🤖 AI faces issues with consistency and reliability when dealing with large YAML files.
 - 🧠 AIs can have "hallucinations," generating illogical outputs that become more problematic as the input size increases.
-- 📈 This inconsistency makes working with AI models non-deterministic and error
-  prone
+- 📈 This inconsistency makes working with AI models non-deterministic and error prone
 
 ---
 
 ## Goals
 
-- 💪 Enhancing AI chatbot reliability
-- 🔬 Using OpenAI's latest model with function calling
-- 📚 Utilizing document retrieval systems as knowledge base
-- 🧠 Connect everything into one cohesive pattern
+Our main goal is to increase reliability and consistency in AI responses. We use two main techniques to achieve this:
+
+- 🛠️ Function calling to bind API routes as tools available for the AI Assistant to communicate with a Kubernetes cluster
+- 🔍 Internet search APIs to provide accurate and relevant information about Kubernetes
 
 ---
 
-## Implementation
+## Implementation Plan
 
-- 💼 Implementing the draft using Flowise
-- 🛠️ Creating an API using Python Flask
-- 💻 Communicating with a local Kind cluster that has Kuberentes installed.
-- 💬 Embedding a chatbot on a web page.
+The following steps outline the plan to achieve our goals:
+
+- 💼 Use Flowise to implement the logic flow so that the AI Assistant can help with managing and troubleshooting a Kubernetes cluster on our behalf.
+- 🛠️ Create a simple Flask API that exposes functions for the AI Assistant to enable it to interact with the Kubernetes cluster.
+- 💻 Use function calling to bind the API routes as tools available for the AI Assistant which enables communication with a local Kind cluster with Kubernetes running.
+- 💬 Test the AI Assistant with various scenarios to ensure it can handle different Kubernetes configurations and provide accurate responses.
 
 ---
 
@@ -35,6 +40,8 @@ Before running the setup, ensure you have the following installed:
 - Mprocs
 - Just (command runner)
 - Hurl (for HTTP testing)
+
+---
 
 ## Setup
 
@@ -84,6 +91,8 @@ directory:
    hurl --file req.hurl
    ```
 
+---
+
 ## Deployment
 
 To deploy the application to a Kubernetes cluster, apply the YAML configurations:
@@ -93,6 +102,7 @@ kubectl apply -f test-pod.yaml
 kubectl apply -f test-pod-error.yaml
 ```
 
+---
 ## Testing
 
 In `flowise` navigate to the testing section and use the chatbot to explore the
@@ -100,15 +110,15 @@ cluster.
 
 Additionally you can use `hurl` and run files with `*.hurl` extension to test the endpoints.
 
+---
 ## Closing Thoughts
 
-- 💭 Debate between model fine-tuning and chain of reasoning
 - 🚀 Potential use cases:
   - 🤖 dedicated chatbots per customer
   - 📈 help increase kuberentes adoption
-  - 🌐 virtual platform engineer
-- 📚 Needs more research and resources
+  - 🌐 virtual engineer support
 
+---
 ## License
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
