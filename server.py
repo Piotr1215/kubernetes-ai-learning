@@ -121,6 +121,17 @@ def apply_kubectl():
 
     return jsonify({"message": "Your YAML has been applied successfully, aks me to validate to see the events"})
 
+@app.route('/version', methods=['GET'])
+def get_cluster_version():
+    # Get cluster configuration using kubectl
+    config_cmd = "kubectl version"
+    process = subprocess.run(config_cmd, shell=True, capture_output=True, text=True)
+    if process.returncode != 0:
+        return jsonify({"error": process.stderr}), 500
+
+    # Return the cluster configuration
+    return jsonify({"version": process.stdout})
+
 if __name__ == '__main__':
     app.run(debug=True)
 
