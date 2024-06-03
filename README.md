@@ -1,6 +1,6 @@
 ---
 
-# Enhancing Verification with Artificial Intelligence
+# Improve AI Reliability and Consistency in Kubernetes
 
 ## Problem Statement
 
