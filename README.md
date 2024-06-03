@@ -77,7 +77,8 @@ The ngrok domain is optional and should be replaced with your own.
    just flowise
    ```
 
-4. To test the server, you can use the provided Hurl file:
+4. To test the server, you can use the provided Hurl files in the `testing`
+directory:
 
    ```bash
    hurl --file req.hurl
