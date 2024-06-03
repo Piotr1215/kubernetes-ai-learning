@@ -5,8 +5,9 @@ procs:
     stop: { send-keys: ["<C-c>"] }
   server:
     shell: "./server.py"
-    autostart: false
+    autostart: true
     stop: { send-keys: ["<C-c>"] }
   ngrok:
     shell: "ngrok http --domain=cloudrumble.ngrok.app 5000"
+    autostart: false
     stop: { send-keys: ["<C-c>"] }
