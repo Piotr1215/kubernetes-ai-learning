@@ -4,51 +4,72 @@ import subprocess
 import yaml
 import tempfile
 import logging
-import json
 
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
-
 logging.getLogger("watchdog").setLevel(logging.WARNING)
+
+def run_kubectl_command(command):
+    """Helper function to run a kubectl command and return the result."""
+    process = subprocess.run(command, shell=True, capture_output=True, text=True)
+    if process.returncode != 0:
+        return None, process.stderr
+    return process.stdout, None
+
+@app.route('/execute', methods=['POST'])
+def execute_kubectl():
+    try:
+        data = request.get_json()
+    except Exception as e:
+        return jsonify({"error": f"Invalid JSON data: {str(e)}"}), 400
+
+    command = data.get("command")
+    if not command:
+        return jsonify({"error": "Missing 'command' key in JSON data"}), 400
+
+    # Ensure the command starts with 'kubectl'
+    if not command.startswith("kubectl"):
+        return jsonify({"error": "Invalid command, must start with 'kubectl'"}), 400
+
+    app.logger.debug(f"Executing kubectl command: {command}")
+
+    stdout, stderr = run_kubectl_command(command)
+    if stderr:
+        return jsonify({"error": stderr}), 500
+
+    return jsonify({"result": stdout})
 
 @app.route('/config', methods=['GET'])
 def get_cluster_config():
-    # Get cluster configuration using kubectl
     config_cmd = "kubectl config view"
-    process = subprocess.run(config_cmd, shell=True, capture_output=True, text=True)
-    if process.returncode != 0:
-        return jsonify({"error": process.stderr}), 500
-
-    # Return the cluster configuration
-    return jsonify({"config": process.stdout})
-
-@app.route('/cleanup', methods=['DELETE'])
-def cleanup_kubectl_events():
-    # Delete all events using kubectl
-    delete_cmd = "kubectl delete events --all"
-    process = subprocess.run(delete_cmd, shell=True, capture_output=True, text=True)
-    if process.returncode != 0:
-        return jsonify({"error": process.stderr}), 500
-    
-    # Return a success message if deletion was successful
-    return jsonify({"message": "Events successfully deleted"}), 200
+    stdout, stderr = run_kubectl_command(config_cmd)
+    if stderr:
+        return jsonify({"error": stderr}), 500
+    return jsonify({"config": stdout})
 
 @app.route('/validate', methods=['GET'])
 def validate_kubectl():
-    # Get all events, warning events will be treated as errors
-    events_cmd = "kubectl get events --all-namespaces --field-selector type=Warning -o custom-columns=TIME:.lastTimestamp,NAMESPACE:.metadata.namespace,NAME:.involvedObject.name,KIND:.involvedObject.kind,NODE:.source.host,REASON:.reason,MESSAGE:.message"
+    events_cmd = (
+        "kubectl get events --all-namespaces --field-selector type=Warning "
+        "-o custom-columns=TIME:.lastTimestamp,NAMESPACE:.metadata.namespace,"
+        "NAME:.involvedObject.name,KIND:.involvedObject.kind,NODE:.source.host,"
+        "REASON:.reason,MESSAGE:.message"
+    )
+    stdout, stderr = run_kubectl_command(events_cmd)
+    if stderr:
+        return jsonify({"error": stderr}), 500
 
-    events_process = subprocess.run(events_cmd, shell=True, capture_output=True, text=True)
-    if events_process.returncode != 0:
-        return jsonify({"error": events_process.stderr}), 500
+    if stdout is None:
+        return jsonify({"error": "Failed to retrieve events"}), 500
 
-    # Process and sort events
-    events = events_process.stdout.splitlines()
-    sorted_events = sorted(events[1:], key=lambda line: line.split(',')[0])  # Skip header and sort by TIME
-    sorted_events.insert(0, events[0])  # Reinsert header at the beginning
+    events = stdout.splitlines()
+    if len(events) > 1:
+        sorted_events = sorted(events[1:], key=lambda line: line.split(',')[0])
+        sorted_events.insert(0, events[0])
+    else:
+        sorted_events = events
 
-    # Return events
     return jsonify({"events": sorted_events})
 
 @app.route('/messages', methods=['GET'])
@@ -63,75 +84,77 @@ def get_kubectl_messages():
     if resource_type not in ['pod', 'deployment']:
         return jsonify({"error": "Invalid type parameter, must be 'pod' or 'deployment'"}), 400
 
-    # Construct the kubectl command based on the provided parameters
     events_cmd = f"kubectl get events --field-selector involvedObject.name={pod_name},involvedObject.namespace={namespace} -n {namespace}"
+    stdout, stderr = run_kubectl_command(events_cmd)
+    if stderr:
+        return jsonify({"error": stderr}), 500
 
-    # Execute the kubectl command
-    process = subprocess.run(events_cmd, shell=True, capture_output=True, text=True)
-    if process.returncode != 0:
-        return jsonify({"error": process.stderr}), 500
+    if stdout is None:
+        return jsonify({"error": "Failed to retrieve events"}), 500
 
-    # Process the events
-    events = process.stdout.splitlines()
+    events = stdout.splitlines()
     if len(events) > 1:
-        # Skip the header and sort by the first column (TIME)
         sorted_events = sorted(events[1:], key=lambda line: line.split()[0])
-        sorted_events.insert(0, events[0])  # Reinsert header at the beginning
+        sorted_events.insert(0, events[0])
     else:
         sorted_events = events
 
-    # Return the events
     return jsonify({"events": sorted_events})
 
 @app.route('/apply', methods=['POST'])
 def apply_kubectl():
-    # Parse the incoming data as JSON
     try:
-        data = json.loads(request.data)
-    except json.JSONDecodeError:
-        return jsonify({"error": "Invalid JSON data"}), 400
+        data = request.get_json()  # Changed to get_json() to parse JSON data
+    except Exception as e:
+        return jsonify({"error": f"Invalid JSON data: {str(e)}"}), 400
 
-    # Extract the YAML string
     yaml_string = data.get("yaml")
     if not yaml_string:
         return jsonify({"error": "Missing 'yaml' key in JSON data"}), 400
 
-    # Replace \n with actual newlines
     yaml_content = yaml_string.replace("\\n", "\n")
-
-    # Log the received YAML content
     app.logger.debug(f"Received YAML content: {yaml_content}")
 
-    # Convert YAML string to YAML format
     try:
-        yaml_data = yaml.safe_load(yaml_content)
-    except yaml.YAMLError as e:
-        return jsonify({"error": str(e)}), 400
+        # Split the YAML content into individual documents
+        yaml_docs = yaml_content.split("---")
+        # Remove any empty documents
+        yaml_docs = [doc for doc in yaml_docs if doc.strip() != ""]
+    except Exception as e:
+        return jsonify({"error": f"Failed to split YAML content: {str(e)}"}), 400
 
-    # Write YAML content to a temporary file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".yaml", mode='w') as tmp:
-        tmp.write(yaml_content)
-        tmp_filename = tmp.name
+    error_messages = []
+    for doc in yaml_docs:
+        try:
+            yaml_data = yaml.safe_load(doc)
+        except yaml.YAMLError as e:
+            error_messages.append(f"Error parsing YAML document: {str(e)}")
+            continue
 
-    # Apply the YAML using kubectl
-    apply_cmd = f"kubectl apply -f {tmp_filename}"
-    process = subprocess.run(apply_cmd, shell=True, capture_output=True, text=True)
-    if process.returncode != 0:
-        return jsonify({"error": process.stderr}), 500
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".yaml", mode='w') as tmp:
+            tmp.write(doc)
+            tmp_filename = tmp.name
 
-    return jsonify({"message": "Your YAML has been applied successfully, aks me to validate to see the events"})
+        apply_cmd = f"kubectl apply -f {tmp_filename}"
+        stdout, stderr = run_kubectl_command(apply_cmd)
+        if stderr:
+            if "already exists" in stderr:
+                error_messages.append(f"Conflict: resource already exists for document starting with {doc[:30]}")
+            else:
+                error_messages.append(stderr)
+
+    if error_messages:
+        return jsonify({"errors": error_messages}), 500
+
+    return jsonify({"message": "Your YAML has been applied successfully, ask me to validate to see the events"}), 200
 
 @app.route('/version', methods=['GET'])
 def get_cluster_version():
-    # Get cluster configuration using kubectl
     config_cmd = "kubectl version"
-    process = subprocess.run(config_cmd, shell=True, capture_output=True, text=True)
-    if process.returncode != 0:
-        return jsonify({"error": process.stderr}), 500
-
-    # Return the cluster configuration
-    return jsonify({"version": process.stdout})
+    stdout, stderr = run_kubectl_command(config_cmd)
+    if stderr:
+        return jsonify({"error": stderr}), 500
+    return jsonify({"version": stdout})
 
 if __name__ == '__main__':
     app.run(debug=True)
-
