@@ -1,0 +1,469 @@
+{
+  "nodes": [
+    {
+      "width": 300,
+      "height": 286,
+      "id": "customTool_0",
+      "position": {
+        "x": -509.26286926064597,
+        "y": -313.4694246691107
+      },
+      "type": "customNode",
+      "data": {
+        "id": "customTool_0",
+        "label": "Custom Tool",
+        "version": 1,
+        "name": "customTool",
+        "type": "CustomTool",
+        "baseClasses": [
+          "CustomTool",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Use custom tool you've created in Flowise within chatflow",
+        "inputParams": [
+          {
+            "label": "Select Tool",
+            "name": "selectedTool",
+            "type": "asyncOptions",
+            "loadMethod": "listTools",
+            "id": "customTool_0-input-selectedTool-asyncOptions"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "selectedTool": "dd22a723-5904-4417-b5fd-0e1fb26b9d9d"
+        },
+        "outputAnchors": [
+          {
+            "id": "customTool_0-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+            "name": "customTool",
+            "label": "CustomTool",
+            "type": "CustomTool | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": -509.26286926064597,
+        "y": -313.4694246691107
+      }
+    },
+    {
+      "width": 300,
+      "height": 286,
+      "id": "customTool_1",
+      "position": {
+        "x": -1166.8169477193849,
+        "y": -1091.343126626427
+      },
+      "type": "customNode",
+      "data": {
+        "id": "customTool_1",
+        "label": "Custom Tool",
+        "version": 1,
+        "name": "customTool",
+        "type": "CustomTool",
+        "baseClasses": [
+          "CustomTool",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Use custom tool you've created in Flowise within chatflow",
+        "inputParams": [
+          {
+            "label": "Select Tool",
+            "name": "selectedTool",
+            "type": "asyncOptions",
+            "loadMethod": "listTools",
+            "id": "customTool_1-input-selectedTool-asyncOptions"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "selectedTool": "21cf8159-564b-4dc2-a8ec-d9543a07d0a7"
+        },
+        "outputAnchors": [
+          {
+            "id": "customTool_1-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+            "name": "customTool",
+            "label": "CustomTool",
+            "type": "CustomTool | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": -1166.8169477193849,
+        "y": -1091.343126626427
+      }
+    },
+    {
+      "width": 300,
+      "height": 276,
+      "id": "braveSearchAPI_0",
+      "position": {
+        "x": -745.0558318839658,
+        "y": -1177.2310552924625
+      },
+      "type": "customNode",
+      "data": {
+        "id": "braveSearchAPI_0",
+        "label": "BraveSearch API",
+        "version": 1,
+        "name": "braveSearchAPI",
+        "type": "BraveSearchAPI",
+        "baseClasses": [
+          "BraveSearchAPI",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Wrapper around BraveSearch API - a real-time API to access Brave search results",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "braveSearchApi"
+            ],
+            "id": "braveSearchAPI_0-input-credential-credential"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {},
+        "outputAnchors": [
+          {
+            "id": "braveSearchAPI_0-output-braveSearchAPI-BraveSearchAPI|Tool|StructuredTool|Runnable",
+            "name": "braveSearchAPI",
+            "label": "BraveSearchAPI",
+            "type": "BraveSearchAPI | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": -745.0558318839658,
+        "y": -1177.2310552924625
+      }
+    },
+    {
+      "id": "openAIAssistant_1",
+      "position": {
+        "x": 24.30453021365696,
+        "y": -899.3285182055865
+      },
+      "type": "customNode",
+      "data": {
+        "id": "openAIAssistant_1",
+        "label": "OpenAI Assistant",
+        "version": 3,
+        "name": "openAIAssistant",
+        "type": "OpenAIAssistant",
+        "baseClasses": [
+          "OpenAIAssistant"
+        ],
+        "category": "Agents",
+        "description": "An agent that uses OpenAI Assistant API to pick the tool and args to call",
+        "inputParams": [
+          {
+            "label": "Select Assistant",
+            "name": "selectedAssistant",
+            "type": "asyncOptions",
+            "loadMethod": "listAssistants",
+            "id": "openAIAssistant_1-input-selectedAssistant-asyncOptions"
+          },
+          {
+            "label": "Disable File Download",
+            "name": "disableFileDownload",
+            "type": "boolean",
+            "description": "Messages can contain text, images, or files. In some cases, you may want to prevent others from downloading the files. Learn more from OpenAI File Annotation <a target=\"_blank\" href=\"https://platform.openai.com/docs/assistants/how-it-works/managing-threads-and-messages\">docs</a>",
+            "optional": true,
+            "additionalParams": true,
+            "id": "openAIAssistant_1-input-disableFileDownload-boolean"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Allowed Tools",
+            "name": "tools",
+            "type": "Tool",
+            "list": true,
+            "id": "openAIAssistant_1-input-tools-Tool"
+          },
+          {
+            "label": "Input Moderation",
+            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "name": "inputModeration",
+            "type": "Moderation",
+            "optional": true,
+            "list": true,
+            "id": "openAIAssistant_1-input-inputModeration-Moderation"
+          }
+        ],
+        "inputs": {
+          "selectedAssistant": "0f5b16fe-d7a5-4891-b746-51fd05728cde",
+          "tools": [
+            "{{braveSearchAPI_0.data.instance}}",
+            "{{customTool_1.data.instance}}",
+            "{{customTool_0.data.instance}}",
+            "{{customTool_2.data.instance}}",
+            "{{customTool_3.data.instance}}",
+            "{{customTool_4.data.instance}}"
+          ],
+          "inputModeration": "",
+          "disableFileDownload": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "openAIAssistant_1-output-openAIAssistant-OpenAIAssistant",
+            "name": "openAIAssistant",
+            "label": "OpenAIAssistant",
+            "description": "An agent that uses OpenAI Assistant API to pick the tool and args to call",
+            "type": "OpenAIAssistant"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 430,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 24.30453021365696,
+        "y": -899.3285182055865
+      },
+      "dragging": false
+    },
+    {
+      "id": "customTool_2",
+      "position": {
+        "x": -1554.3879827831481,
+        "y": -758.1651994831061
+      },
+      "type": "customNode",
+      "data": {
+        "id": "customTool_2",
+        "label": "Custom Tool",
+        "version": 1,
+        "name": "customTool",
+        "type": "CustomTool",
+        "baseClasses": [
+          "CustomTool",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Use custom tool you've created in Flowise within chatflow",
+        "inputParams": [
+          {
+            "label": "Select Tool",
+            "name": "selectedTool",
+            "type": "asyncOptions",
+            "loadMethod": "listTools",
+            "id": "customTool_2-input-selectedTool-asyncOptions"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "selectedTool": "cb0ebc8a-d022-44ac-bac5-a03c90e8a51e"
+        },
+        "outputAnchors": [
+          {
+            "id": "customTool_2-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+            "name": "customTool",
+            "label": "CustomTool",
+            "description": "Use custom tool you've created in Flowise within chatflow",
+            "type": "CustomTool | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 286,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -1554.3879827831481,
+        "y": -758.1651994831061
+      },
+      "dragging": false
+    },
+    {
+      "id": "customTool_3",
+      "position": {
+        "x": -1556.2296311646455,
+        "y": -380.6913514047783
+      },
+      "type": "customNode",
+      "data": {
+        "id": "customTool_3",
+        "label": "Custom Tool",
+        "version": 1,
+        "name": "customTool",
+        "type": "CustomTool",
+        "baseClasses": [
+          "CustomTool",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Use custom tool you've created in Flowise within chatflow",
+        "inputParams": [
+          {
+            "label": "Select Tool",
+            "name": "selectedTool",
+            "type": "asyncOptions",
+            "loadMethod": "listTools",
+            "id": "customTool_3-input-selectedTool-asyncOptions"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "selectedTool": "227096d3-bc71-42e4-accd-195f703d8def"
+        },
+        "outputAnchors": [
+          {
+            "id": "customTool_3-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+            "name": "customTool",
+            "label": "CustomTool",
+            "description": "Use custom tool you've created in Flowise within chatflow",
+            "type": "CustomTool | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 286,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -1556.2296311646455,
+        "y": -380.6913514047783
+      },
+      "dragging": false
+    },
+    {
+      "id": "customTool_4",
+      "position": {
+        "x": -942.4224624772029,
+        "y": -200.58703639215958
+      },
+      "type": "customNode",
+      "data": {
+        "id": "customTool_4",
+        "label": "Custom Tool",
+        "version": 1,
+        "name": "customTool",
+        "type": "CustomTool",
+        "baseClasses": [
+          "CustomTool",
+          "Tool",
+          "StructuredTool",
+          "Runnable"
+        ],
+        "category": "Tools",
+        "description": "Use custom tool you've created in Flowise within chatflow",
+        "inputParams": [
+          {
+            "label": "Select Tool",
+            "name": "selectedTool",
+            "type": "asyncOptions",
+            "loadMethod": "listTools",
+            "id": "customTool_4-input-selectedTool-asyncOptions"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "selectedTool": "4f426040-4d0a-4280-b32c-bc58b0ddaba4"
+        },
+        "outputAnchors": [
+          {
+            "id": "customTool_4-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+            "name": "customTool",
+            "label": "CustomTool",
+            "description": "Use custom tool you've created in Flowise within chatflow",
+            "type": "CustomTool | Tool | StructuredTool | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 286,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -942.4224624772029,
+        "y": -200.58703639215958
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "braveSearchAPI_0",
+      "sourceHandle": "braveSearchAPI_0-output-braveSearchAPI-BraveSearchAPI|Tool|StructuredTool|Runnable",
+      "target": "openAIAssistant_1",
+      "targetHandle": "openAIAssistant_1-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "braveSearchAPI_0-braveSearchAPI_0-output-braveSearchAPI-BraveSearchAPI|Tool|StructuredTool|Runnable-openAIAssistant_1-openAIAssistant_1-input-tools-Tool"
+    },
+    {
+      "source": "customTool_1",
+      "sourceHandle": "customTool_1-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+      "target": "openAIAssistant_1",
+      "targetHandle": "openAIAssistant_1-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "customTool_1-customTool_1-output-customTool-CustomTool|Tool|StructuredTool|Runnable-openAIAssistant_1-openAIAssistant_1-input-tools-Tool"
+    },
+    {
+      "source": "customTool_0",
+      "sourceHandle": "customTool_0-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+      "target": "openAIAssistant_1",
+      "targetHandle": "openAIAssistant_1-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "customTool_0-customTool_0-output-customTool-CustomTool|Tool|StructuredTool|Runnable-openAIAssistant_1-openAIAssistant_1-input-tools-Tool"
+    },
+    {
+      "source": "customTool_2",
+      "sourceHandle": "customTool_2-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+      "target": "openAIAssistant_1",
+      "targetHandle": "openAIAssistant_1-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "customTool_2-customTool_2-output-customTool-CustomTool|Tool|StructuredTool|Runnable-openAIAssistant_1-openAIAssistant_1-input-tools-Tool"
+    },
+    {
+      "source": "customTool_3",
+      "sourceHandle": "customTool_3-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+      "target": "openAIAssistant_1",
+      "targetHandle": "openAIAssistant_1-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "customTool_3-customTool_3-output-customTool-CustomTool|Tool|StructuredTool|Runnable-openAIAssistant_1-openAIAssistant_1-input-tools-Tool"
+    },
+    {
+      "source": "customTool_4",
+      "sourceHandle": "customTool_4-output-customTool-CustomTool|Tool|StructuredTool|Runnable",
+      "target": "openAIAssistant_1",
+      "targetHandle": "openAIAssistant_1-input-tools-Tool",
+      "type": "buttonedge",
+      "id": "customTool_4-customTool_4-output-customTool-CustomTool|Tool|StructuredTool|Runnable-openAIAssistant_1-openAIAssistant_1-input-tools-Tool"
+    }
+  ]
+}

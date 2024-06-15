@@ -1,0 +1,8 @@
+{
+  "name": "get_config",
+  "description": "Use this to get the cluster information",
+  "color": "linear-gradient(rgb(41,75,116), rgb(129,52,180))",
+  "iconSrc": "",
+  "schema": "[]",
+  "func": "/*\n* You can use any libraries imported in Flowise\n* You can use properties specified in Output Schema as variables. Ex: Property = userid, Variable = $userid\n* Must return a string value at the end of function\n*/\n\nconst fetch = require('node-fetch');\nconst url = 'http://127.0.0.1:5000/config';\nconst options = {\n    method: 'GET',\n    headers: {\n        'Content-Type': 'application/json'\n    }\n};\ntry {\n    const response = await fetch(url, options);\n    const text = await response.text();\n    return text;\n} catch (error) {\n    console.error(error);\n    return '';\n}"
+}
