@@ -2,8 +2,8 @@ version: '3.1'
 
 services:
     flowise:
-        network_mode: host
         image: flowiseai/flowise
+        network_mode: host
         restart: always
         environment:
             - PORT=${PORT}
@@ -34,4 +34,4 @@ services:
             - '${PORT}:${PORT}'
         volumes:
             - ~/.flowise:/root/.flowise
-        command: /bin/sh -c "sleep 3; flowise start"
+        entrypoint: /bin/sh -c "sleep 3; flowise start"

@@ -2,11 +2,9 @@
 
 # Learn Kubernetes with AI Assistant
 
----
-
 ## Goals
 
-Our main goal is to utliize AI to help users learn Kubernetes by providing a
+Our main goal is to utilize AI to help users learn Kubernetes by providing a
 reliable and consistent AI Assistant that can:
 
 - 🛠️ Use function calling to bind API routes as tools available for the AI Assistant to communicate with a Kubernetes cluster
@@ -42,15 +40,11 @@ To set up the project, follow these steps:
 
 1. Install the required Python packages:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+`pip install -r requirements.txt`
 
 2. Run the server and flowise:
 
-   ```bash
-   mprocs --config ./llm-procs.yaml
-   ```
+`mprocs --config ./llm-procs.yaml`
 
 > mprocs configuration:
 
@@ -71,18 +65,16 @@ procs:
 
 The ngrok domain is optional and should be replaced with your own.
 
+---
+
 3. Start the `flowise` UI:
 
-   ```bash
-   just flowise
-   ```
+`just flowise`
 
 4. To test the server, you can use the provided Hurl files in the `testing`
 directory:
 
-   ```bash
-   hurl --file req.hurl
-   ```
+`hurl --file req.hurl`
 
 5. In `flowise`, create API Keys for OpenAI API and BraveAPI. Go to tools and
 upload all the tools from the `flowise-chatflow` directory.
@@ -141,7 +133,7 @@ Secondary Function - Assisting with Kubernetes Information:
 
 To deploy the application to a Kubernetes cluster, apply the YAML configurations:
 
-```
+```bash
 kubectl apply -f test-pod.yaml
 kubectl apply -f test-pod-error.yaml
 ```
@@ -153,14 +145,6 @@ In `flowise` navigate to the testing section and use the chatbot to explore the
 cluster.
 
 Additionally you can use `hurl` and run files with `*.hurl` extension to test the endpoints.
-
----
-## Closing Thoughts
-
-- 🚀 Potential use cases:
-  - 🤖 dedicated chatbots per customer
-  - 📈 help increase kuberentes adoption
-  - 🌐 virtual engineer support
 
 ---
 ## License
